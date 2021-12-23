@@ -1,4 +1,4 @@
-package com.company;
+package com.schools;
 
 public class Finances {
     private double expenditure;

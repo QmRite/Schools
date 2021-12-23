@@ -1,4 +1,4 @@
-package com.company;
+package com.schools;
 
 public class Staff {
     private int students;

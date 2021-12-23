@@ -1,4 +1,4 @@
-package com.company;
+package com.schools;
 
 public class School {
     private final String district;

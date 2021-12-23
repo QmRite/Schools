@@ -1,9 +1,8 @@
-package com.company;
+package com.schools;
 
 import org.sqlite.JDBC;
 
 import java.sql.*;
-import java.util.*;
 
 public class DbHandler {
 
