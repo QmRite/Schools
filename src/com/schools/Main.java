@@ -1,36 +1,42 @@
 package com.schools;
 
 
+import org.jfree.data.category.CategoryDataset;
+
+import java.io.IOException;
 import java.util.ArrayList;
-import java.sql.*;
+import java.util.HashMap;
 
 public class Main {
 
+    private static ArrayList<School> schools = new ArrayList<>();
+
     public static void main(String[] args) {
-        ArrayList<School> schools = new ArrayList<>();
+        parseCSV();
+
+        try {
+            String tableName = "schools";
+            DbHandler dbHandler = DbHandler.getInstance();
+            dbHandler.createTable(tableName);
+            for (var school: schools){
+                dbHandler.addSchool(school, tableName);
+            }
+
+            HashMap<String, Float> CountriesAndAvgStudents = dbHandler.getCountriesAndAverageStudentsCount(10);
+            ChartHandler.createChart(ChartHandler.createDatasetFromHashMap(CountriesAndAvgStudents));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    private static void parseCSV(){
         try {
             var parsedData = CSVParser.parse("Schools.csv", true);
             for (var school: parsedData){
                 schools.add(new School(school));
             }
-        }
-        catch (Exception e){
+        } catch (IOException e){
             e.printStackTrace();
         }
-        try {
-            String tableName = "schools";
-            DbHandler dbHandler = DbHandler.getInstance();
-            dbHandler.deleteTable(tableName);
-            dbHandler.createTable(tableName);
-            for (var school: schools){
-                dbHandler.addSchool(school, tableName);
-            }
-            //dbHandler.selectCountriesWithAverageExpenditureHigherThan(10, new String[]{"Glenn", "Fresno", "Contra Costa", "El Dorado"}, tableName);
-            dbHandler.selectSchoolWithHighestSubjectScore("math", new int[]{5000, 7000, 10000, 11000}, tableName);
-        }
-        catch (SQLException e){
-            e.printStackTrace();
-        }
-        System.out.println("sa");
     }
 }
