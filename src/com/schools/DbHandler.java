@@ -21,7 +21,7 @@ public class DbHandler {
         this.connection = DriverManager.getConnection("jdbc:sqlite:Schools.db");
     }
 
-    public void createTable(String name){
+    public void createTable(String name) throws SQLException{
         String query = "CREATE TABLE " + name + "( " +
                 "district VARCHAR(5) PRIMARY KEY, " +
                 "name VARCHAR(50), " +
@@ -37,13 +37,8 @@ public class DbHandler {
                 "computer FLOAT(10), " +
                 "expenditure FLOAT(10), " +
                 "income FLOAT(10))";
-        try {
-            Statement statement = this.connection.createStatement();
-            statement.executeUpdate(query);
-        }
-        catch (SQLException e){
-            e.printStackTrace();
-        }
+        Statement statement = this.connection.createStatement();
+        statement.executeUpdate(query);
     }
 
     public void selectCountriesWithAverageExpenditureHigherThan(int expen, String tableName){
@@ -86,7 +81,7 @@ public class DbHandler {
         return result.substring(0, result.length() - 4);
     }
 
-    public void selectSchoolWithHighestSubjectScore(String subject, String tableName){
+    public void selectSchoolWithHighestSubjectScore(String subject, String tableName) throws SQLException{
         String query = "SELECT name, students, math " +
                 "FROM " + tableName + " " +
                 "ORDER BY " + subject + " DESC " +
@@ -94,7 +89,7 @@ public class DbHandler {
         printName(query);
     }
 
-    public void selectSchoolWithHighestSubjectScore(String subject, int[] borders, String tableName){
+    public void selectSchoolWithHighestSubjectScore(String subject, int[] borders, String tableName) throws SQLException{
         String condition = createBordersCondition("students", borders);
         String query = "SELECT name, students, math " +
                 "FROM " + tableName + " " +
@@ -104,21 +99,16 @@ public class DbHandler {
         printName(query);
     }
 
-    private void printName(String query){
-        try{
-            Statement statement = this.connection.createStatement();
-            ResultSet rs = statement.executeQuery(query);
-            while (rs.next()){
-                String name = rs.getString("name");
-                System.out.println(name);
-            }
-        }
-        catch (SQLException e){
-            e.printStackTrace();
+    private void printName(String query) throws SQLException {
+        Statement statement = this.connection.createStatement();
+        ResultSet rs = statement.executeQuery(query);
+        while (rs.next()) {
+            String name = rs.getString("name");
+            System.out.println(name);
         }
     }
 
-    public HashMap<String, Float> getCountriesAndAverageStudentsCount(int limit){
+    public HashMap<String, Float> getCountriesAndAverageStudentsCount(int limit) throws SQLException {
         HashMap<String, Float> result = new HashMap<>();
 
         String query = "SELECT country, AVG(students) as avg " +
@@ -127,18 +117,14 @@ public class DbHandler {
                 "ORDER BY country " +
                 "LIMIT " + limit;
 
-        try{
-            Statement statement = this.connection.createStatement();
-            ResultSet rs = statement.executeQuery(query);
-            while (rs.next()){
-                String country = rs.getString("country");
-                float students = rs.getFloat("avg");
-                result.put(country, students);
-            }
+        Statement statement = this.connection.createStatement();
+        ResultSet rs = statement.executeQuery(query);
+        while (rs.next()) {
+            String country = rs.getString("country");
+            float students = rs.getFloat("avg");
+            result.put(country, students);
         }
-        catch (SQLException e){
-            e.printStackTrace();
-        }
+
         return result;
     }
 
@@ -153,15 +139,10 @@ public class DbHandler {
         return result.substring(0, result.length() - 3);
     }
 
-    public void deleteTable(String name){
+    public void deleteTable(String name) throws SQLException{
         String query = "DROP TABLE "+ name;
-        try {
-            Statement statement = this.connection.createStatement();
-            statement.executeUpdate(query);
-        }
-        catch (SQLException e){
-            e.printStackTrace();
-        }
+        Statement statement = this.connection.createStatement();
+        statement.executeUpdate(query);
     }
 
     public void addSchool(School school, String tableName) {
