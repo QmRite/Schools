@@ -22,8 +22,7 @@ public class Main {
                 dbHandler.addSchool(school, tableName);
             }
 
-            String[] countries = new String[]{"Glenn", "Fresno", "Contra Costa", "El Dorado"};
-            dbHandler.selectCountriesWithAverageExpenditureHigherThan(10, countries, tableName);
+            dbHandler.selectSchoolWithHighestSubjectScore("math", new int[]{5000, 7000, 10000, 11000}, tableName);
         } catch (Exception e){
             e.printStackTrace();
         }
