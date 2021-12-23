@@ -22,8 +22,8 @@ public class Main {
                 dbHandler.addSchool(school, tableName);
             }
 
-            HashMap<String, Float> CountriesAndAvgStudents = dbHandler.getCountriesAndAverageStudentsCount(10);
-            ChartHandler.createChart(ChartHandler.createDatasetFromHashMap(CountriesAndAvgStudents));
+            String[] countries = new String[]{"Glenn", "Fresno", "Contra Costa", "El Dorado"};
+            dbHandler.selectCountriesWithAverageExpenditureHigherThan(10, countries, tableName);
         } catch (Exception e){
             e.printStackTrace();
         }
