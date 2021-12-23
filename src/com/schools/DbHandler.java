@@ -3,6 +3,7 @@ package com.schools;
 import org.sqlite.JDBC;
 
 import java.sql.*;
+import java.util.HashMap;
 
 public class DbHandler {
 
@@ -115,6 +116,30 @@ public class DbHandler {
         catch (SQLException e){
             e.printStackTrace();
         }
+    }
+
+    public HashMap<String, Float> getCountriesAndAverageStudentsCount(int limit){
+        HashMap<String, Float> result = new HashMap<>();
+
+        String query = "SELECT country, AVG(students) as avg " +
+                "FROM schools " +
+                "GROUP BY country " +
+                "ORDER BY country " +
+                "LIMIT " + limit;
+
+        try{
+            Statement statement = this.connection.createStatement();
+            ResultSet rs = statement.executeQuery(query);
+            while (rs.next()){
+                String country = rs.getString("country");
+                float students = rs.getFloat("avg");
+                result.put(country, students);
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return result;
     }
 
     private String createBordersCondition(String column, int[] borders){
