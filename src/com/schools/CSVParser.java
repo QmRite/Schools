@@ -8,25 +8,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class CSVParser {
-    public static ArrayList<String[]> parse(String path, boolean removeHeader){
+    public static ArrayList<String[]> parse(String path, boolean removeHeader) throws IOException{
         ArrayList<String[]> result = new ArrayList<>();
-        try {
-            BufferedReader br = Files.newBufferedReader(Paths.get(path));
+        BufferedReader br = Files.newBufferedReader(Paths.get(path));
 
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] columns = Arrays.stream(line.split(","))
-                        .map(s -> s.replace("\"", ""))
-                        .toArray(String[]::new);
-                result.add(columns);
-            }
+        String line;
+        while ((line = br.readLine()) != null) {
+            String[] columns = Arrays.stream(line.split(","))
+                .map(s -> s.replace("\"", ""))
+                .toArray(String[]::new);
+            result.add(columns);
         }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+
         if (removeHeader){
             result.remove(0);
         }
+
         return result;
     }
 }
