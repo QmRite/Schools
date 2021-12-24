@@ -21,4 +21,4 @@
 
 **Результат:**
 
-![alt text](https://sun9-13.userapi.com/impg/xSXm6lMKEl9q_4JzP4Yf8czHnaFZUWrgIZb3LA/cUO19tzdFGw.jpg?size=198x101&quality=96&sign=f47b0271fae50ac09488b0083018c5be&type=album)
+![alt text](https://sun9-66.userapi.com/impg/eyhR4jEIgg-EpGgPpagm65hu2YPTL347Zjlxiw/EN_pZdTTzkg.jpg?size=225x25&quality=96&sign=0036f5fa830d3387d0468d1490af35bf&type=album)
